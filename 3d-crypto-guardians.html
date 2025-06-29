@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Tower Defense: Crypto Clash</title>
+    <title>Crypto Guardians: Blockchain Defense</title>
     <style>
         html, body {
             margin: 0;
@@ -10,6 +10,9 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
+            font-family: 'Arial', sans-serif;
+            background: #000;
+            color: #fff;
         }
         #renderCanvas {
             width: 100%;
@@ -21,11 +24,13 @@
             position: absolute;
             top: 10px;
             left: 10px;
-            color: white;
-            font-family: Arial, sans-serif;
-            background-color: rgba(0,0,0,0.5);
-            padding: 10px;
-            border-radius: 5px;
+            color: #0af;
+            font-family: 'Courier New', monospace;
+            background: rgba(0, 10, 20, 0.7);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #0af;
+            box-shadow: 0 0 10px #0af;
             pointer-events: none;
             z-index: 10;
         }
@@ -35,54 +40,77 @@
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 10px;
-            background-color: rgba(0,0,0,0.7);
-            padding: 10px;
-            border-radius: 5px;
+            gap: 15px;
+            background: rgba(0, 5, 15, 0.8);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #0af;
+            box-shadow: 0 0 15px #0af;
             z-index: 10;
         }
         .towerBtn {
-            width: 60px;
-            height: 60px;
-            background-color: #333;
-            color: white;
-            border: 2px solid #666;
-            border-radius: 5px;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(145deg, #001a33, #003366);
+            color: #0af;
+            border: 2px solid #0af;
+            border-radius: 10px;
             cursor: pointer;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            font-size: 10px;
+            font-size: 12px;
+            font-weight: bold;
+            transition: all 0.2s;
         }
         .towerBtn:hover {
-            background-color: #444;
+            background: linear-gradient(145deg, #003366, #004d99);
+            transform: scale(1.05);
+            box-shadow: 0 0 10px #0af;
         }
         #gameOver {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: rgba(0,0,0,0.8);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
+            background: rgba(0, 5, 15, 0.9);
+            color: #0af;
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid #0af;
+            box-shadow: 0 0 20px #0af;
             text-align: center;
             display: none;
             z-index: 20;
         }
         #restartBtn {
-            background-color: #4CAF50;
+            background: linear-gradient(145deg, #004d99, #0066cc);
             border: none;
             color: white;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
+            padding: 12px 25px;
             font-size: 16px;
-            margin: 10px 2px;
+            font-weight: bold;
+            border-radius: 8px;
             cursor: pointer;
-            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        #restartBtn:hover {
+            background: linear-gradient(145deg, #0066cc, #0080ff);
+            box-shadow: 0 0 10px #0af;
+        }
+        .health-bar {
+            width: 100%;
+            height: 5px;
+            background: #333;
+            border-radius: 2px;
+            margin-top: 5px;
+        }
+        .health-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f00, #f90);
+            border-radius: 2px;
+            width: 100%;
         }
     </style>
     <script src="https://cdn.babylonjs.com/babylon.js"></script>
@@ -91,33 +119,35 @@
 <body>
     <canvas id="renderCanvas"></canvas>
     <div id="ui">
-        <div>Health: <span id="health">100</span></div>
-        <div>Crypto: <span id="crypto">50</span></div>
-        <div>Wave: <span id="wave">1</span></div>
-        <div>Enemies: <span id="enemies">0</span></div>
+        <h2 style="margin: 0; color: #0af;">CRYPTO GUARDIANS</h2>
+        <div>VAULT HEALTH: <span id="health">100</span>%</div>
+        <div class="health-bar"><div class="health-fill" id="healthFill"></div></div>
+        <div>CRYPTO: $<span id="crypto">50</span></div>
+        <div>WAVE: <span id="wave">1</span></div>
+        <div>ENEMIES: <span id="enemies">0</span></div>
     </div>
     <div id="towerMenu">
         <button class="towerBtn" data-type="bitcoin">
-            <div>Bitcoin</div>
+            <div>BITCOIN MINER</div>
             <div>$20</div>
         </button>
         <button class="towerBtn" data-type="ethereum">
-            <div>Ethereum</div>
+            <div>ETHEREUM CONTRACT</div>
             <div>$30</div>
         </button>
         <button class="towerBtn" data-type="solana">
-            <div>Solana</div>
+            <div>SOLANA VALIDATOR</div>
             <div>$40</div>
         </button>
         <button class="towerBtn" data-type="dogecoin">
-            <div>Dogecoin</div>
+            <div>DOGECOIN CANNON</div>
             <div>$15</div>
         </button>
     </div>
     <div id="gameOver">
-        <h2>Game Over</h2>
+        <h2 style="color: #f00;">VAULT BREACHED!</h2>
         <p>You survived <span id="finalWave">0</span> waves!</p>
-        <button id="restartBtn">Restart</button>
+        <button id="restartBtn">REBOOT SYSTEM</button>
     </div>
 
     <script>
@@ -140,31 +170,60 @@
 
         // Tower stats
         const towerStats = {
-            bitcoin: { cost: 20, range: 6, damage: 15, cooldown: 1500, color: "#f7931a", mesh: null },
-            ethereum: { cost: 30, range: 5, damage: 25, cooldown: 1000, color: "#627eea", mesh: null },
-            solana: { cost: 40, range: 7, damage: 20, cooldown: 500, color: "#00ffbd", mesh: null },
-            dogecoin: { cost: 15, range: 4, damage: 10, cooldown: 800, color: "#cb9800", mesh: null }
+            bitcoin: { 
+                cost: 20, 
+                range: 6, 
+                damage: 25, 
+                cooldown: 2000, 
+                color: "#f7931a",
+                name: "Bitcoin Miner",
+                desc: "High damage, slow attack"
+            },
+            ethereum: { 
+                cost: 30, 
+                range: 5, 
+                damage: 15, 
+                cooldown: 800, 
+                color: "#627eea",
+                name: "Ethereum Contract",
+                desc: "Fast attacks, chain hits"
+            },
+            solana: { 
+                cost: 40, 
+                range: 8, 
+                damage: 20, 
+                cooldown: 1200, 
+                color: "#00ffbd",
+                name: "Solana Validator",
+                desc: "Long range, multi-target"
+            },
+            dogecoin: { 
+                cost: 15, 
+                range: 4, 
+                damage: 10, 
+                cooldown: 500, 
+                color: "#cb9800",
+                name: "Dogecoin Cannon",
+                desc: "Cheap, splash damage"
+            }
         };
 
         // Enemy stats
         const enemyStats = [
-            { health: 30, speed: 0.5, reward: 5, color: "#ff0000", name: "Script Kiddie" },
-            { health: 60, speed: 0.4, reward: 10, color: "#ff6600", name: "Hacker" },
-            { health: 100, speed: 0.3, reward: 20, color: "#990000", name: "Cyber Criminal" },
-            { health: 150, speed: 0.25, reward: 30, color: "#660000", name: "State Actor" }
+            { health: 30, speed: 0.6, reward: 5, color: "#ff5555", name: "Script Kiddie" },
+            { health: 80, speed: 0.4, reward: 10, color: "#ff9900", name: "Ransomware Bot" },
+            { health: 120, speed: 0.3, reward: 15, color: "#aa00ff", name: "Phishing Scammer" },
+            { health: 200, speed: 0.2, reward: 25, color: "#00ffff", name: "Quantum Hacker" }
         ];
 
         // Initialize the game
         window.addEventListener('DOMContentLoaded', function() {
             const canvas = document.getElementById("renderCanvas");
-            engine = new BABYLON.Engine(canvas, true, {
-                preserveDrawingBuffer: true,
-                stencil: true
-            });
+            engine = new BABYLON.Engine(canvas, true);
             
             const createScene = function() {
                 const scene = new BABYLON.Scene(engine);
-                scene.clearColor = new BABYLON.Color4(0.1, 0.1, 0.2, 1);
+                scene.clearColor = new BABYLON.Color4(0.05, 0.05, 0.1, 1);
                 
                 // Camera
                 const camera = new BABYLON.ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2, 25, new BABYLON.Vector3(0, 0, 0), scene);
@@ -180,7 +239,7 @@
                 // Ground
                 const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 30, height: 30}, scene);
                 ground.material = new BABYLON.StandardMaterial("groundMat", scene);
-                ground.material.diffuseColor = new BABYLON.Color3(0.2, 0.2, 0.2);
+                ground.material.diffuseColor = new BABYLON.Color3(0.1, 0.1, 0.2);
                 
                 // Create path
                 createPath(scene);
@@ -192,14 +251,9 @@
                 setupUI();
                 
                 // Game loop
-                let lastTime = 0;
                 scene.registerBeforeRender(function() {
-                    const now = Date.now();
-                    const deltaTime = now - lastTime;
-                    lastTime = now;
-                    
                     if (gameActive) {
-                        updateGame(deltaTime, scene);
+                        updateGame(16, scene); // Approx 60 FPS
                     }
                 });
                 
@@ -216,9 +270,8 @@
                 engine.resize();
             });
         });
-        
+
         function createPath(scene) {
-            // Define path points (x, z coordinates)
             pathPoints = [
                 new BABYLON.Vector3(-12, 0, -12),
                 new BABYLON.Vector3(-12, 0, -6),
@@ -229,44 +282,19 @@
                 new BABYLON.Vector3(12, 0, -6),
                 new BABYLON.Vector3(12, 0, 12),
                 new BABYLON.Vector3(0, 0, 12),
-                new BABYLON.Vector3(0, 0, 0) // End at the center (wallet)
+                new BABYLON.Vector3(0, 0, 0)
             ];
             
             // Visualize path
-            const pathLines = [];
             for (let i = 0; i < pathPoints.length - 1; i++) {
                 const line = BABYLON.MeshBuilder.CreateLines("pathLine", {
                     points: [pathPoints[i], pathPoints[i+1]],
                     colors: [new BABYLON.Color4(1, 0.5, 0, 1), new BABYLON.Color4(1, 0.5, 0, 1)]
                 }, scene);
-                pathLines.push(line);
-            }
-            
-            // Create path mesh for collision
-            const pathWidth = 2;
-            for (let i = 0; i < pathPoints.length - 1; i++) {
-                const start = pathPoints[i];
-                const end = pathPoints[i+1];
-                const direction = end.subtract(start);
-                const length = direction.length();
-                direction.normalize();
-                
-                const pathSegment = BABYLON.MeshBuilder.CreateBox("pathSegment", {
-                    width: pathWidth,
-                    height: 0.1,
-                    depth: length
-                }, scene);
-                
-                pathSegment.position = start.add(direction.scale(length/2));
-                pathSegment.rotation.y = Math.atan2(direction.x, direction.z);
-                pathSegment.material = new BABYLON.StandardMaterial("pathMat", scene);
-                pathSegment.material.diffuseColor = new BABYLON.Color3(0.4, 0.2, 0);
-                pathSegment.isPickable = false;
             }
         }
-        
+
         function createTowerMeshes(scene) {
-            // Create preview meshes for each tower type
             for (const type in towerStats) {
                 const stats = towerStats[type];
                 const tower = BABYLON.MeshBuilder.CreateCylinder(type + "Preview", {
@@ -277,13 +305,11 @@
                 tower.material.diffuseColor = BABYLON.Color3.FromHexString(stats.color);
                 tower.material.alpha = 0.5;
                 tower.isVisible = false;
-                tower.isPickable = false;
                 stats.mesh = tower;
             }
         }
-        
+
         function setupUI() {
-            // Tower buttons
             const towerButtons = document.querySelectorAll('.towerBtn');
             towerButtons.forEach(button => {
                 button.addEventListener('click', function() {
@@ -300,9 +326,8 @@
                 });
             });
             
-            // Canvas click for tower placement
             const canvas = document.getElementById("renderCanvas");
-            canvas.addEventListener('click', function(event) {
+            canvas.addEventListener('click', function() {
                 if (!placingTower || !selectedTowerType) return;
                 
                 const scene = engine.scenes[0];
@@ -311,89 +336,38 @@
                 if (pickResult.hit && pickResult.pickedMesh.name === "ground") {
                     const position = pickResult.pickedPoint;
                     
-                    // Check if position is too close to path
                     if (isPositionValid(position)) {
                         placeTower(position, selectedTowerType, scene);
                         crypto -= towerCost;
                         updateUI();
                     } else {
-                        alert("Cannot place tower on or too close to the path!");
+                        alert("Cannot place tower here!");
                     }
                 }
                 
-                // Hide preview
                 towerStats[selectedTowerType].mesh.isVisible = false;
                 placingTower = false;
-                selectedTowerType = null;
             });
             
-            // Canvas mouse move for tower preview
-            canvas.addEventListener('mousemove', function(event) {
-                if (!placingTower || !selectedTowerType) return;
-                
-                const scene = engine.scenes[0];
-                const pickResult = scene.pick(scene.pointerX, scene.pointerY);
-                
-                if (pickResult.hit && pickResult.pickedMesh.name === "ground") {
-                    const position = pickResult.pickedPoint;
-                    towerStats[selectedTowerType].mesh.position = new BABYLON.Vector3(position.x, 1, position.z);
-                    
-                    // Change color based on valid position
-                    const valid = isPositionValid(position);
-                    towerStats[selectedTowerType].mesh.material.diffuseColor = valid ? 
-                        BABYLON.Color3.FromHexString(towerStats[selectedTowerType].color) : 
-                        BABYLON.Color3.Red();
-                }
-            });
-            
-            // Restart button
             document.getElementById('restartBtn').addEventListener('click', restartGame);
         }
-        
+
         function isPositionValid(position) {
-            // Check if position is too close to path
             const minDistance = 3;
             
             for (let i = 0; i < pathPoints.length; i++) {
                 const distance = BABYLON.Vector3.Distance(position, pathPoints[i]);
-                if (distance < minDistance) {
-                    return false;
-                }
-                
-                if (i < pathPoints.length - 1) {
-                    const segmentStart = pathPoints[i];
-                    const segmentEnd = pathPoints[i+1];
-                    const closestPoint = getClosestPointOnSegment(position, segmentStart, segmentEnd);
-                    const segmentDistance = BABYLON.Vector3.Distance(position, closestPoint);
-                    if (segmentDistance < minDistance) {
-                        return false;
-                    }
-                }
+                if (distance < minDistance) return false;
             }
             
-            // Check if position is too close to other towers
             for (const tower of towers) {
                 const distance = BABYLON.Vector3.Distance(position, tower.position);
-                if (distance < 3) {
-                    return false;
-                }
+                if (distance < 3) return false;
             }
             
             return true;
         }
-        
-        function getClosestPointOnSegment(point, segmentStart, segmentEnd) {
-            const segment = segmentEnd.subtract(segmentStart);
-            const segmentLength = segment.length();
-            segment.normalize();
-            
-            const pointVector = point.subtract(segmentStart);
-            let projection = BABYLON.Vector3.Dot(pointVector, segment);
-            projection = Math.max(0, Math.min(projection, segmentLength));
-            
-            return segmentStart.add(segment.scale(projection));
-        }
-        
+
         function placeTower(position, type, scene) {
             const stats = towerStats[type];
             
@@ -407,7 +381,6 @@
                 mesh: null
             };
             
-            // Create tower mesh
             const base = BABYLON.MeshBuilder.CreateCylinder(type + "Base", {
                 height: 0.5,
                 diameter: 1.5
@@ -422,96 +395,14 @@
             top.position = new BABYLON.Vector3(position.x, 1.2, position.z);
             top.material = new BABYLON.StandardMaterial(type + "TopMat", scene);
             top.material.diffuseColor = BABYLON.Color3.FromHexString(stats.color);
-            top.material.emissiveColor = BABYLON.Color3.FromHexString(stats.color);
             
-            // Create range indicator (hidden by default)
-            const rangeIndicator = BABYLON.MeshBuilder.CreateSphere(type + "Range", {
-                diameter: stats.range * 2,
-                segments: 16
-            }, scene);
-            rangeIndicator.position = new BABYLON.Vector3(position.x, 0.1, position.z);
-            rangeIndicator.material = new BABYLON.StandardMaterial(type + "RangeMat", scene);
-            rangeIndicator.material.diffuseColor = new BABYLON.Color3(1, 1, 1);
-            rangeIndicator.material.alpha = 0.2;
-            rangeIndicator.isVisible = false;
-            
-            tower.mesh = {
-                base: base,
-                top: top,
-                rangeIndicator: rangeIndicator
-            };
-            
-            // Add click event to show range
-            base.actionManager = new BABYLON.ActionManager(scene);
-            base.actionManager.registerAction(
-                new BABYLON.ExecuteCodeAction(
-                    BABYLON.ActionManager.OnPickTrigger,
-                    function() {
-                        rangeIndicator.isVisible = !rangeIndicator.isVisible;
-                    }
-                )
-            );
-            
+            tower.mesh = { base, top };
             towers.push(tower);
         }
-        
-        function spawnEnemy(scene) {
-            const enemyType = Math.min(Math.floor(wave / 3), enemyStats.length - 1);
-            const stats = enemyStats[enemyType];
-            
-            const enemy = {
-                type: enemyType,
-                health: stats.health * (1 + (wave-1) * 0.1), // Scale health with waves
-                maxHealth: stats.health * (1 + (wave-1) * 0.1),
-                speed: stats.speed,
-                reward: stats.reward,
-                position: new BABYLON.Vector3(pathPoints[0].x, 0, pathPoints[0].z),
-                targetPointIndex: 1,
-                mesh: null,
-                healthBar: null
-            };
-            
-            // Create enemy mesh
-            const enemyMesh = BABYLON.MeshBuilder.CreateSphere("enemy", {
-                diameter: 1
-            }, scene);
-            enemyMesh.position = enemy.position;
-            enemyMesh.material = new BABYLON.StandardMaterial("enemyMat", scene);
-            enemyMesh.material.diffuseColor = BABYLON.Color3.FromHexString(stats.color);
-            
-            // Create health bar
-            const healthBar = BABYLON.MeshBuilder.CreatePlane("healthBar", {
-                width: 1,
-                height: 0.1
-            }, scene);
-            healthBar.position = new BABYLON.Vector3(enemy.position.x, 1.5, enemy.position.z);
-            healthBar.billboardMode = BABYLON.Mesh.BILLBOARDMODE_ALL;
-            healthBar.material = new BABYLON.StandardMaterial("healthBarMat", scene);
-            healthBar.material.diffuseColor = new BABYLON.Color3(1, 0, 0);
-            healthBar.material.emissiveColor = new BABYLON.Color3(1, 0, 0);
-            
-            const healthBarBG = BABYLON.MeshBuilder.CreatePlane("healthBarBG", {
-                width: 1,
-                height: 0.1
-            }, scene);
-            healthBarBG.position = new BABYLON.Vector3(enemy.position.x, 1.5, enemy.position.z);
-            healthBarBG.billboardMode = BABYLON.Mesh.BILLBOARDMODE_ALL;
-            healthBarBG.material = new BABYLON.StandardMaterial("healthBarBGMat", scene);
-            healthBarBG.material.diffuseColor = new BABYLON.Color3(0.3, 0.3, 0.3);
-            
-            enemy.mesh = enemyMesh;
-            enemy.healthBar = healthBar;
-            enemy.healthBarBG = healthBarBG;
-            
-            enemies.push(enemy);
-            enemiesAlive++;
-            updateUI();
-        }
-        
+
         function updateGame(deltaTime, scene) {
             const now = Date.now();
             
-            // Spawn enemies for current wave
             if (enemiesAlive === 0 && now > nextWaveTime) {
                 spawnWave(scene);
                 nextWaveTime = now + waveCooldown;
@@ -520,27 +411,15 @@
             // Update enemies
             for (let i = enemies.length - 1; i >= 0; i--) {
                 const enemy = enemies[i];
-                
-                // Move enemy along path
                 const target = pathPoints[enemy.targetPointIndex];
                 const direction = target.subtract(enemy.position).normalize();
                 enemy.position.addInPlace(direction.scale(enemy.speed * deltaTime / 1000));
                 
-                // Update mesh position
                 enemy.mesh.position = enemy.position;
-                enemy.healthBar.position = new BABYLON.Vector3(enemy.position.x, 1.5, enemy.position.z);
-                enemy.healthBarBG.position = new BABYLON.Vector3(enemy.position.x, 1.5, enemy.position.z);
                 
-                // Update health bar
-                const healthPercent = enemy.health / enemy.maxHealth;
-                enemy.healthBar.scaling.x = healthPercent;
-                enemy.healthBar.position.x = enemy.position.x - (1 - healthPercent) / 2;
-                
-                // Check if reached target point
                 if (BABYLON.Vector3.Distance(enemy.position, target) < 0.2) {
                     enemy.targetPointIndex++;
                     
-                    // Check if reached end of path
                     if (enemy.targetPointIndex >= pathPoints.length) {
                         enemyReachedEnd(enemy, i);
                         continue;
@@ -562,19 +441,16 @@
             // Update projectiles
             for (let i = projectiles.length - 1; i >= 0; i--) {
                 const projectile = projectiles[i];
-                
-                // Move projectile
                 const direction = projectile.target.position.subtract(projectile.position).normalize();
                 projectile.position.addInPlace(direction.scale(1.5 * deltaTime / 1000));
                 projectile.mesh.position = projectile.position;
                 
-                // Check if hit target
                 if (BABYLON.Vector3.Distance(projectile.position, projectile.target.position) < 0.5) {
                     projectileHit(projectile, i);
                 }
             }
         }
-        
+
         function spawnWave(scene) {
             const enemiesInWave = 5 + wave * 2;
             
@@ -587,7 +463,35 @@
             wave++;
             updateUI();
         }
-        
+
+        function spawnEnemy(scene) {
+            const enemyType = Math.min(Math.floor(wave / 3), enemyStats.length - 1);
+            const stats = enemyStats[enemyType];
+            
+            const enemy = {
+                type: enemyType,
+                health: stats.health * (1 + (wave-1) * 0.1),
+                maxHealth: stats.health * (1 + (wave-1) * 0.1),
+                speed: stats.speed,
+                reward: stats.reward,
+                position: new BABYLON.Vector3(pathPoints[0].x, 0, pathPoints[0].z),
+                targetPointIndex: 1,
+                mesh: null
+            };
+            
+            const enemyMesh = BABYLON.MeshBuilder.CreateSphere("enemy", {
+                diameter: 1
+            }, scene);
+            enemyMesh.position = enemy.position;
+            enemyMesh.material = new BABYLON.StandardMaterial("enemyMat", scene);
+            enemyMesh.material.diffuseColor = BABYLON.Color3.FromHexString(stats.color);
+            
+            enemy.mesh = enemyMesh;
+            enemies.push(enemy);
+            enemiesAlive++;
+            updateUI();
+        }
+
         function findTargetInRange(tower) {
             let closestEnemy = null;
             let closestDistance = tower.range;
@@ -602,7 +506,7 @@
             
             return closestEnemy;
         }
-        
+
         function shootProjectile(tower, target, scene) {
             const projectile = {
                 position: new BABYLON.Vector3(tower.position.x, 1, tower.position.z),
@@ -611,97 +515,78 @@
                 mesh: null
             };
             
-            // Create projectile mesh
             const projectileMesh = BABYLON.MeshBuilder.CreateSphere("projectile", {
                 diameter: 0.3
             }, scene);
             projectileMesh.position = projectile.position;
             projectileMesh.material = new BABYLON.StandardMaterial("projectileMat", scene);
             projectileMesh.material.diffuseColor = BABYLON.Color3.FromHexString(towerStats[tower.type].color);
-            projectileMesh.material.emissiveColor = BABYLON.Color3.FromHexString(towerStats[tower.type].color);
             
             projectile.mesh = projectileMesh;
             projectiles.push(projectile);
         }
-        
+
         function projectileHit(projectile, index) {
-            // Apply damage
             projectile.target.health -= projectile.damage;
             
-            // Check if enemy died
             if (projectile.target.health <= 0) {
                 const enemyIndex = enemies.indexOf(projectile.target);
                 if (enemyIndex !== -1) {
-                    // Remove enemy
                     projectile.target.mesh.dispose();
-                    projectile.target.healthBar.dispose();
-                    projectile.target.healthBarBG.dispose();
                     enemies.splice(enemyIndex, 1);
                     enemiesAlive--;
-                    
-                    // Add reward
                     crypto += projectile.target.reward;
                     updateUI();
                 }
             }
             
-            // Remove projectile
             projectile.mesh.dispose();
             projectiles.splice(index, 1);
         }
-        
+
         function enemyReachedEnd(enemy, index) {
-            // Remove enemy
             enemy.mesh.dispose();
-            enemy.healthBar.dispose();
-            enemy.healthBarBG.dispose();
             enemies.splice(index, 1);
             enemiesAlive--;
             
-            // Apply damage
             health -= 10 + wave;
             updateUI();
             
-            // Check game over
             if (health <= 0) {
                 gameOver();
             }
         }
-        
+
         function updateUI() {
             document.getElementById('health').textContent = Math.max(0, health);
+            document.getElementById('healthFill').style.width = health + '%';
             document.getElementById('crypto').textContent = crypto;
             document.getElementById('wave').textContent = wave;
             document.getElementById('enemies').textContent = enemiesAlive;
         }
-        
+
         function gameOver() {
             gameActive = false;
             document.getElementById('finalWave').textContent = wave - 1;
             document.getElementById('gameOver').style.display = 'block';
         }
-        
+
         function restartGame() {
-            // Clear all game objects
             const scene = engine.scenes[0];
             
             for (const tower of towers) {
                 tower.mesh.base.dispose();
                 tower.mesh.top.dispose();
-                tower.mesh.rangeIndicator.dispose();
             }
             
             for (const enemy of enemies) {
                 enemy.mesh.dispose();
-                enemy.healthBar.dispose();
-                enemy.healthBarBG.dispose();
             }
             
             for (const projectile of projectiles) {
                 projectile.mesh.dispose();
             }
             
-            // Reset game state
             health = 100;
             crypto = 50;
             wave = 1;
@@ -712,7 +597,6 @@
             nextWaveTime = Date.now() + waveCooldown;
             gameActive = true;
             
-            // Update UI
             updateUI();
             document.getElementById('gameOver').style.display = 'none';
         }
